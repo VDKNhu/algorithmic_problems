@@ -31,3 +31,29 @@ function numSub2(s: string): number {
 
     return res;
 };
+
+// Prefix sum approach
+function numSub3(s: string): number {
+    const MOD = 1000000007;
+    const len = s.length;
+    const prefixSum = new Array(len + 1).fill(0);
+
+    let freq = 0;
+    for(let i = 0; i < len; i++) {
+        if(s[i] === '1') {
+            freq++;
+            prefixSum[1] += 1;
+            prefixSum[freq + 1] -= 1;
+        } else {
+            freq = 0;
+        }
+    }
+
+    let res = 0;
+    for(let i = 1; i <= len; i++) {
+        prefixSum[i] += prefixSum[i - 1];
+        res = (res + prefixSum[i]) % MOD;
+    }
+
+    return res;
+};
